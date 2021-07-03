@@ -5,7 +5,7 @@ let maze = [
   ['#', '+', '#', '+', '#', '#', '+', '#', '#'],
   ['#', '+', '#', '+', '0', '+', '+', '#', '#'],
   ['#', '+', '+', '+', '#', '#', '#', '#', '#'],
-  ['#', '#', '#', '#', '#', '#', '#', '#', '+'],
+  ['#', '#', '#', '+', '#', '#', '#', '#', '+'],
   ['#', '#', '#', '#', '#', '#', '#', '#', '#'],
 ];
 
@@ -16,14 +16,14 @@ class MazeSolver {
     this.numStartPoints = 0;
 
     this.mazeStartCoordinate = [];
-    this.mazeEndCoordinates = [];
+    this.mazeExitCoordinates = [];
     this.solution = [];
   }
 
   init() {
     this.findMazeStart();
-    this.findMazeEnds();
-    this.traverse(this.mazeStartCoordinate, this.mazeEndCoordinates, '+', '$');
+    this.findMazeExits();
+    this.traverse(this.mazeStartCoordinate, this.mazeExitCoordinates, '+', '$');
   }
 
   findMazeStart() {
@@ -45,34 +45,34 @@ class MazeSolver {
     // console.log(`Start is at ${JSON.stringify(this.mazeStartCoordinate)}.`);
   }
 
-  findMazeEnds() {
+  findMazeExits() {
     // find all of the coordinates that may be exits
     for (let col = 0; col < this.maze[0].length; col++) {
       if (this.maze[0][col].includes('+')) {
-        this.mazeEndCoordinates.push({ y: 0, x: col });
+        this.mazeExitCoordinates.push({ y: 0, x: col });
       }
     }
 
     for (let col = 0; col < this.maze[0].length; col++) {
       if (this.maze[this.maze.length - 1][col].includes('+')) {
-        this.mazeEndCoordinates.push({ y: this.maze.length - 1, x: col });
+        this.mazeExitCoordinates.push({ y: this.maze.length - 1, x: col });
       }
     }
 
     for (let row = 0; row < this.maze.length; row++) {
       if (this.maze[row][0].includes('+')) {
-        this.mazeEndCoordinates.push({ y: row, x: 0 });
+        this.mazeExitCoordinates.push({ y: row, x: 0 });
       }
     }
 
     for (let row = 0; row < this.maze.length; row++) {
       if (this.maze[row][this.maze[row].length - 1].includes('+')) {
-        this.mazeEndCoordinates.push({ y: row, x: this.maze[row].length - 1 });
+        this.mazeExitCoordinates.push({ y: row, x: this.maze[row].length - 1 });
       }
     }
 
     // console.log(
-    //   `Possible ends are at ${JSON.stringify(this.mazeEndCoordinates)}.`
+    //   `Possible exits are at ${JSON.stringify(this.mazeExitCoordinates)}.`
     // );
   }
 
@@ -118,7 +118,7 @@ class MazeSolver {
     return cords.filter((el) => el.val === symbol || el.val === '+');
   }
 
-  traverse(start, ends, pathSymbol, visitedSymbol) {
+  traverse(start, exits, pathSymbol, visitedSymbol) {
     // get available directions
     let directions = this.getValidDir(start, pathSymbol);
 
@@ -136,8 +136,8 @@ class MazeSolver {
     delete currentCoordinate.val;
     delete currentCoordinate.direction;
 
-    for (let j = 0; j < ends.length; j++) {
-      if (JSON.stringify(currentCoordinate) == JSON.stringify(ends[j])) {
+    for (let j = 0; j < exits.length; j++) {
+      if (JSON.stringify(currentCoordinate) == JSON.stringify(exits[j])) {
         throw this.solution;
       }
     }
@@ -146,7 +146,7 @@ class MazeSolver {
     let checkForNewPath = this.getValidDir(start, '+');
 
     if (checkForNewPath.length > 0 && pathSymbol == '$') {
-      this.traverse(start, ends, '+', '$');
+      this.traverse(start, exits, '+', '$');
     }
 
     // traverse forward the maze (clockwise starting from the right)
@@ -161,16 +161,16 @@ class MazeSolver {
       }
 
       // start the new loop of traversing
-      this.traverse(currentDirection, ends, pathSymbol, visitedSymbol);
+      this.traverse(currentDirection, exits, pathSymbol, visitedSymbol);
     } else {
       // if no paths available during the loop, start traversing back
       let checkForVisitedPath = this.getValidDir(start, '$');
 
       if (checkForNewPath.length > 0) {
         // this part of the if statement is not required, since we have called the function previously if the new path is available
-        this.traverse(start, ends, '+', '$');
+        this.traverse(start, exits, '+', '$');
       } else if (checkForVisitedPath.length > 0) {
-        this.traverse(start, ends, '$', '@');
+        this.traverse(start, exits, '$', '@');
       } else {
         // if there are no '+' or '$' paths, and all of the other directions where checked previously, throw the error.
         throw 'The maze does not have a solution.';
