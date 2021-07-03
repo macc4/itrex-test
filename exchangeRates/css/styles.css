@@ -1,9 +1,10 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 15px;
   line-height: 1.5;
-  color: black;
-  background-color: #e3e2df;
+  color: #eefbfb;
+  text-align: center;
+  background-color: #12232e;
 }
 
 .h1 {
@@ -13,16 +14,17 @@ body {
 
 .table {
   width: 100%;
-  border: 1px solid #9a1750;
+  border: 1px solid #007cc7;
   border-collapse: collapse;
 }
 
 .table th {
+  font-weight: normal;
   padding: 5px 10px;
   text-align: left;
 }
 
 .table td {
   padding: 5px 10px;
-  border: 1px solid #9a1750;
+  border: 1px solid #007cc7;
 }
