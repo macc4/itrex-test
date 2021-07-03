@@ -1,6 +1,6 @@
 # node-itrex-test
 
-Task #1
+Task #1 - Exchange Rates web page
 
 This web page shows the current exchange rate of the Belarusian ruble in relation to all the foreign currencies established by the National Bank of the Republic of Belarus.
 It uses API of the National bank of the Republic of Belarus, documentation can be found here: https://www.nbrb.by/apihelp/exrates
