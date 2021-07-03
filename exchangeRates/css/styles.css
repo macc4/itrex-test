@@ -1,0 +1,28 @@
+body {
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: black;
+  background-color: #e3e2df;
+}
+
+.h1 {
+  margin: 0;
+  font-size: 24;
+}
+
+.table {
+  width: 100%;
+  border: 1px solid #9a1750;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 5px 10px;
+  text-align: left;
+}
+
+.table td {
+  padding: 5px 10px;
+  border: 1px solid #9a1750;
+}
