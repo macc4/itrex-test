@@ -1,4 +1,4 @@
-# node-itrex-test
+# itrex-test
 
 Task #1 - Exchange Rates web page
 
